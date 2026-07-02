@@ -126,9 +126,28 @@ Se construyeron gráficos para comunicar los resultados del análisis:
 
 ---
 
-## 💼 Fase 5 — Conclusiones
+## 💼 Fase 5 — Conclusiones de negocio
 
-Finalmente se generaron recomendaciones orientadas al negocio con base en los hallazgos obtenidos durante el análisis.
+### Hallazgos principales
+
+- **Electrónica** es la categoría con mayor ingreso total (128.3M, 40.2% del total),
+  seguida de cerca por **Belleza** (111.7M, 35.0%). Juntas concentran el 75% del 
+  ingreso total del período analizado. **Deportes** es la categoría con menor ingreso 
+  (13.5M, 4.2%) — no se recomienda descontinuarla basándose únicamente en este dato, 
+  ya que el análisis no contempla margen de ganancia, frecuencia de compra ni 
+  estacionalidad.
+
+- **Barranquilla** lidera en ingresos con 73.2M (22.9%), pero las primeras cuatro 
+  ciudades están agrupadas entre 20% y 23% — no hay una ciudad dominante clara. 
+  Antes de priorizar una campaña de marketing en Barranquilla se recomienda cruzar 
+  este dato con el número de clientes activos por ciudad para determinar si el 
+  liderazgo responde a mayor base de clientes o a un ticket promedio más alto.
+
+- El segmento **Estándar** registró el ticket promedio más alto (901.342 COP), 
+  por encima del segmento **Premium** (781.360 COP). Este hallazgo es contraintuitivo 
+  y debe interpretarse con cautela dado el tamaño del dataset — se recomienda 
+  validarlo con datos reales antes de tomar decisiones sobre la estrategia de 
+  segmentación.
 
 ---
 
