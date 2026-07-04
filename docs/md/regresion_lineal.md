@@ -1,77 +1,127 @@
-# Proyecto Ventas — Regresion Lineal con Scikit-Learn
+# 📄 Proyecto Ventas — Modelo de Predicción con Regresión Lineal (Scikit-Learn)
 
 ## Fase 1 — Extracción y preparación de datos
 
-Conectar a `ventas.db` usando la ruta relativa `../data/raw/ventas.db` y definir la función `sql()`.
+### Conexión a la base de datos
 
-Escribir una query SQL con JOIN entre `ventas` y `productos` que extraiga `cantidad`, `descuento_pct`, `precio_unitario` y `categoria`. Calcular el `ingreso` directamente en la query o en Pandas — ambas opciones son válidas.
+Se estableció la conexión con la base de datos `ventas.db` mediante una ruta relativa, utilizando una función auxiliar para ejecutar consultas SQL desde Python.
 
-Verificar el shape del DataFrame resultante y confirmar que no hay nulos antes de continuar.
+### Extracción de información
+
+Se realizó una consulta SQL con `JOIN` entre las tablas `ventas` y `productos` para obtener las variables necesarias para el modelo:
+
+- cantidad
+- descuento_pct
+- precio_unitario
+- categoria
+
+A partir de estas variables se calculó el ingreso generado por cada venta.
+
+### Validación inicial
+
+Se verificó la estructura del DataFrame obtenido, confirmando la cantidad de registros, columnas y la ausencia de valores nulos antes de iniciar el proceso de modelado.
 
 ---
-## Fase 2 — Exploración antes de modelar
 
-### **Punto de reflexión 2.1** — Identificar la variable con mayor correlación con `ingreso`. Determinar si el resultado tiene sentido desde el punto de vista del negocio o si resulta sorprendente.
+# Fase 2 — Exploración de variables
 
-### La variable con mayor correlacion con "ingreso" es "precio_unitario" mostrando un resultado de 0.753 seguido de cantidad con un resultado de 0.600, teniendo estas sentido ya que el ingreso de una venta depende directamente de la cantidad vendida de un producto y el precio del mismo
+## Análisis de correlaciones
+
+Se evaluó la relación entre las variables predictoras y la variable objetivo (`ingreso`) mediante una matriz de correlación.
+
+El análisis mostró que la variable **precio_unitario** presentó la mayor correlación con el ingreso (0.753), seguida por **cantidad** (0.600). Este comportamiento resulta coherente desde el punto de vista del negocio, ya que ambas variables influyen directamente sobre el valor final de una venta.
 
 ---
-### **Punto de reflexión 2.2** — Construir un scatter de `precio_unitario` vs `ingreso`. Determinar si la relación parece lineal e identificar si existen outliers visibles que podrían afectar el modelo.
 
-### Con base al scatter realizado se puede ver una relacion lineal por parte de los valores en "precio_unitario" e "ingreso" sin presentar outliers evidentes o significativos que puedan afectar el proceso de analisis posterior a este grafico
+## Relación entre precio unitario e ingreso
+
+Se construyó un gráfico de dispersión para analizar visualmente la relación entre ambas variables.
+
+El comportamiento observado evidencia una tendencia lineal positiva, sin presencia de valores atípicos significativos que puedan afectar el entrenamiento del modelo.
 
 ![alt text](/docs/imgs/regresionLineal/scatter_precioUnitario_Ingresos.png)
 
 ---
 
-## Fase 3 — Preparación de features
+# Fase 3 — Preparación de variables predictoras
 
-### **Punto de reflexión 3.1** — Indicar cuántas columnas tiene `df_encoded` después del encoding. Explicar por qué `drop_first=True` elimina una columna y qué problema evita.
+## Codificación de variables categóricas
 
-### El dataframe llamado df_encoded paso a tener un total de 8 columnas al aplicar One-Hot Encoding y al aplicar la funcion drop_first=True durante el proceso se evita la multicolinealidad y evitar posibles fallos con el modelo
+Las variables categóricas fueron transformadas mediante **One-Hot Encoding**, permitiendo que el algoritmo de regresión pudiera utilizarlas correctamente.
 
----
+Después de la transformación, el conjunto de datos quedó compuesto por ocho variables predictoras.
 
-## Fase 4 — Separar X e y y aplicar train/test split
-
-### **Punto de reflexión 4.1** — Indicar cuántas filas quedan en train y en test. Determinar si se trata de un tamaño razonable para entrenar un modelo de regresión con este dataset.
-
-### Quedan 303 filas en el conjunto de entrenamiento del modelo y 76 filas para el conjunto de prueba del mismo. Considero que es un tamaño razonable para entrenar un modelo de regresion, ya que hay suficientes datos para que el modelo aprenda y un conjunto de prueba adecuado para evaluar su rendimiento
+Se utilizó el parámetro `drop_first=True` con el propósito de evitar la multicolinealidad, eliminando una categoría de referencia durante el proceso de codificación.
 
 ---
 
-## Fase 5 — Entrenamiento del modelo
+# Fase 4 — División del conjunto de datos
 
-Crear un modelo `LinearRegression()`, entrenarlo con `X_train` e `y_train` usando `.fit()` y generar predicciones sobre `X_test` con `.predict()`.
+## Entrenamiento y prueba
 
-Después del entrenamiento, imprimir los coeficientes del modelo junto al nombre de cada variable. El coeficiente indica cuánto aumenta el ingreso predicho por cada unidad que aumenta esa variable, manteniendo el resto constante.
+El conjunto de datos fue dividido utilizando `train_test_split`, reservando aproximadamente el 80 % de los registros para entrenamiento y el 20 % para evaluación.
 
-### **Punto de reflexión 5.1** — Antes de revisar las métricas, observar los coeficientes. Determinar si la variable con mayor coeficiente coincide con la que tenía mayor correlación en la Fase 2.
+La distribución final fue:
 
-### La variable resultante con mayor coeficiente despues de entrenar el modelo de prediccion es cantidad, la cual se menciono en la segunda fase que era la segunda con mayor correlacion con "ingresos", teniendo un resultado de 0.600 en correlacion, y en coeficiente 202359.555177
+- Entrenamiento: 303 registros.
+- Prueba: 76 registros.
 
----
-
-## Fase 6 — Evaluación del modelo
-
-### **Punto de reflexión 6.1** — Determinar si el R² obtenido corresponde con lo esperado. Evaluar si el MAE es aceptable en el contexto del ticket promedio.
-
-### El R² obtenido fue superior al esperado. Inicialmente se estimo un valor cercano a 0.70, pero el modelo alcanzo un R² de 0.8386, lo que indica que explica aproximadamente el 83.9% de la variabilidad del importe neto. Esto sugiere que el modelo tiene un buen poder predictivo. En cuanto al MAE, fue de 192,621.70, mientras que el ticket promedio es de 842,265.61. Esto significa que el error absoluto promedio representa cerca del 23% del ticket promedio. Aunque existe un margen de error considerable, el desempeño del modelo puede considerarse aceptable para una primera aproximación, ya que las predicciones se mantienen relativamente cercanas al valor real.
-
-### **Punto de reflexión 6.2** — Si el R² es bajo (por ejemplo 0.30), considerar dos posibles causas: (A) el modelo lineal no es adecuado para estos datos, o (B) las variables elegidas no explican bien el ingreso. Explicar cómo podrían distinguirse ambas situaciones y qué se haría diferente.
-
-### Dado que en el conjunto se datos se trabajo con todas las varibles, podria sugerir investigar sobre otro modelo que tenga mejor funcionamiento con los tipos de datos vistos e implementarlo al flujo de trabajo realizado de regresion
+Esta partición proporciona una cantidad suficiente de información para entrenar el modelo y evaluar posteriormente su capacidad de generalización.
 
 ---
 
-## Fase 7 — Visualización
+# Fase 5 — Entrenamiento del modelo
 
-Construir dos gráficos en una sola figura:
+## Construcción del modelo
 
-1. **Scatter de predichos vs reales** — los puntos deben concentrarse cerca de la línea diagonal y=x si el modelo ajusta bien. Agregar esa línea diagonal en rojo punteado como referencia.
+Se implementó un modelo de **Regresión Lineal** mediante la clase `LinearRegression()` de Scikit-Learn.
+
+Posteriormente se entrenó utilizando el conjunto de entrenamiento y se generaron predicciones sobre el conjunto de prueba.
+
+## Interpretación de coeficientes
+
+Tras el entrenamiento se analizaron los coeficientes obtenidos por el modelo.
+
+La variable **cantidad** presentó el mayor coeficiente, indicando que es la característica con mayor influencia sobre el ingreso predicho cuando las demás variables permanecen constantes.
+
+Aunque durante el análisis exploratorio la variable con mayor correlación fue **precio_unitario**, el resultado obtenido es consistente, ya que correlación y coeficiente representan conceptos estadísticos diferentes.
+
+---
+
+# Fase 6 — Evaluación del modelo
+
+## Métricas de desempeño
+
+El modelo obtuvo un coeficiente de determinación (**R²**) de **0.8386**, lo que indica que explica aproximadamente el **83.9 %** de la variabilidad presente en los ingresos.
+
+Asimismo, el Error Absoluto Medio (**MAE**) fue de **192,621.70**, mientras que el ticket promedio del negocio corresponde a **842,265.61**.
+
+En términos relativos, el error representa cerca del **23 %** del valor promedio de una venta, por lo que el desempeño del modelo puede considerarse adecuado como una primera aproximación para realizar predicciones.
+
+## Limitaciones del modelo
+
+Aunque el desempeño obtenido fue satisfactorio, este modelo representa únicamente una aproximación lineal al problema.
+
+En escenarios donde el coeficiente de determinación fuera considerablemente menor, sería necesario evaluar si la relación entre las variables no es lineal o si existen variables adicionales que expliquen mejor el comportamiento del ingreso.
+
+---
+
+# Fase 7 — Visualización y validación del modelo
+
+## Comparación entre valores reales y predichos
+
+Se construyó un gráfico de dispersión comparando los valores reales frente a las predicciones realizadas por el modelo.
+
+La proximidad de los puntos respecto a la línea diagonal evidencia un buen nivel de ajuste.
 
 ![alt text](/docs/imgs/regresionLineal/scatter_predichos_reales.png)
 
-2. **Histograma de residuos** — los errores (real − predicho) deben distribuirse aproximadamente centrados en cero. Una distribución muy asimétrica indica que el modelo tiene un sesgo sistemático.
+---
+
+## Distribución de residuos
+
+Finalmente se analizó la distribución de los residuos (error entre el valor real y el valor predicho).
+
+La distribución obtenida se encuentra centrada alrededor de cero y no presenta patrones evidentes de sesgo, lo que respalda el comportamiento esperado para un modelo de regresión lineal.
 
 ![alt text](/docs/imgs/regresionLineal/histogramaResiduos.png)
