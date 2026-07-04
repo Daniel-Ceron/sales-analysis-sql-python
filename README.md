@@ -25,6 +25,8 @@ Todo el proyecto fue desarrollado siguiendo una metodología similar a la utiliz
 - SQLite
 - SQL
 - Matplotlib
+- Scikit-Learn
+- Seaborn
 - Jupyter Notebook
 - VS Code
 
@@ -151,6 +153,34 @@ Se construyeron gráficos para comunicar los resultados del análisis:
 
 ---
 
+## 🤖 Fase 6 — Modelo de Regresión Lineal
+
+Se implementó un modelo de regresión lineal con Scikit-Learn para predecir 
+el ingreso por venta a partir de variables conocidas al momento de la transacción.
+
+**Variables predictoras:** cantidad, descuento_pct, precio_unitario, categoria (One-Hot Encoding)  
+**Variable objetivo:** ingreso = cantidad × precio_unitario × (1 − descuento_pct / 100)
+
+### Resultados del modelo
+
+- **R²: 0.8386** — el modelo explica el 83.9% de la variación en el ingreso por venta
+- **MAE: 192.621 COP** — error promedio por predicción (22.87% del ticket promedio)
+- **Variable de mayor impacto:** cantidad (coeficiente: 202.359,55)
+- **Categoría con menor aporte predicho:** Ropa (coeficiente: −47.827)
+
+### Conclusión del modelo
+
+El modelo supera el umbral mínimo de R² = 0.80 considerado aceptable para producción. 
+El modelo no contempla margen de ganancia, estacionalidad ni 
+frecuencia de compra.
+
+### Vista previa
+
+![Predichos vs Reales](docs/imgs/regresionLineal/scatter_predichos_reales.png)
+![Residuos](docs/imgs/regresionLineal/histogramaResiduos.png)
+
+---
+
 # 📌 Principales aprendizajes
 
 Este proyecto permitió fortalecer habilidades relacionadas con:
@@ -163,6 +193,11 @@ Este proyecto permitió fortalecer habilidades relacionadas con:
 - Documentación técnica
 - Análisis exploratorio
 - Pensamiento analítico orientado al negocio
+- Regresión lineal con Scikit-Learn
+- Evaluación de modelos (R², MAE, RMSE)
+- One-Hot Encoding
+- Train/Test Split
+- Interpretación de coeficientes
 
 ---
 
@@ -170,19 +205,19 @@ Este proyecto permitió fortalecer habilidades relacionadas con:
 
 ## Ingreso por categoría
 
-![Ingreso por categoría](docs/imgs/ingresoPorCategoria.png)
+![Ingreso por categoría](docs/imgs/analisisTecnico/ingresoPorCategoria.png)
 
 ---
 
 ## Ciudad con mayores ingresos
 
-![Ciudad](docs/imgs/ciudadConMayorIngresos.png)
+![Ciudad](docs/imgs/analisisTecnico/ciudadConMayorIngresos.png)
 
 ---
 
 ## Ticket promedio
 
-![Ticket](docs/imgs/ticketPromedio.png)
+![Ticket](docs/imgs/analisisTecnico/ticketPromedio.png)
 
 ---
 

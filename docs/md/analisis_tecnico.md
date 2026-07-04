@@ -34,23 +34,23 @@
 
 ### El ingreso total por cada categoría dentro del conjunto de datos se distribuye de la siguiente manera:
 ### TABLA DE VALORES:
-### ![alt text](/docs/imgs/ingresoPorCategoria.png)
+### ![alt text](/docs/imgs/analisisTecnico/ingresoPorCategoria.png)
 ---
 ### **Reto 3.2** — Identificación de la ciudad con mayor generación de ingresos (JOIN ventas + clientes + productos).
 
 ### La ciudad con mayores ingresos registrados es Barranquilla, con un total de 75.650.200 en ingresos.
 ### TABLA DE VALORES:
-### ![alt text](/docs/imgs/ciudadConMayorIngresos.png)
+### ![alt text](/docs/imgs/analisisTecnico/ciudadConMayorIngresos.png)
 ---
 ### **Reto 3.3** — Cálculo del ticket promedio (ingreso promedio por venta) según el segmento de cliente.
 
 ### El ticket promedio para cada segmento es el siguiente:
-### ![alt text](/docs/imgs/ticketPromedio.png)
+### ![alt text](/docs/imgs/analisisTecnico/ticketPromedio.png)
 ---
 ### **Reto 3.4** — Identificación de productos cuyo ingreso total supera el promedio de ingresos de todos los productos mediante una subconsulta.
 
 ### La siguiente tabla muestra los productos cuyo ingreso total supera el promedio de ingresos calculado entre todos los productos:
-### ![alt text](/docs/imgs/ingresoTotalPromedio.png)
+### ![alt text](/docs/imgs/analisisTecnico/ingresoTotalPromedio.png)
 ---
 
 ## Fase 4 — Visualización
