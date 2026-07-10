@@ -181,6 +181,44 @@ frecuencia de compra.
 
 ---
 
+---
+
+## 🔍 Fase 7 — Modelo de Clasificación: Predicción de Clientes Recurrentes
+
+Se construyó un dataset agregado por cliente a partir de la tabla de ventas, 
+definiendo como cliente recurrente aquel con 6 o más compras en el período analizado.
+Se entrenaron y compararon tres modelos de clasificación.
+
+**Variable objetivo:** cliente_recurrente → 1 = recurrente (≥ 6 compras), 0 = no recurrente  
+**Variables predictoras:** total_compras, ingreso_total, descuento_promedio, cantidad_promedio, num_categorias  
+**Distribución de clases:** 39 recurrentes (65%) — 21 no recurrentes (35%)
+
+### Resultados por modelo
+
+| Modelo | Accuracy | Recall clase 1 |
+|---|---|---|
+| Decision Tree | **100%** | **1.00** |
+| KNN | 91.7% | 1.00 |
+| Logistic Regression | 91.7% | 1.00 |
+
+### Conclusión del modelo
+
+**Decision Tree** obtuvo el mejor desempeño con accuracy perfecta sobre el test set.
+Los tres modelos alcanzaron recall perfecto para la clase 1 — ninguno dejó pasar 
+un cliente recurrente sin detectarlo, que es la métrica más relevante para campañas 
+de fidelización.
+
+Los resultados deben interpretarse con cautela dado el tamaño reducido del test set 
+(12 filas) — se recomienda reentrenar con un dataset más grande antes de usar las 
+predicciones en producción.
+
+### Vista previa
+
+![Matrices de confusión](docs/imgs/clasificacion/matricesConfusion.png)
+![Accuracy por modelo](docs/imgs/clasificacion/accuracyModelo.png)
+
+---
+
 # 📌 Principales aprendizajes
 
 Este proyecto permitió fortalecer habilidades relacionadas con:
@@ -198,6 +236,11 @@ Este proyecto permitió fortalecer habilidades relacionadas con:
 - One-Hot Encoding
 - Train/Test Split
 - Interpretación de coeficientes
+- Clasificación con Logistic Regression, KNN y Decision Tree
+- Matriz de confusión e interpretación de errores
+- Métricas de clasificación (accuracy, precision, recall, F1)
+- Comparación de múltiples modelos sobre el mismo dataset
+- Dataset agregado por cliente con SQL
 
 ---
 
